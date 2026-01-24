@@ -2,7 +2,8 @@
 
 En modern och användarvänlig desktop-applikation för att spåra din viktresa med avancerade grafer, prediktioner och analyser. Perfekt för alla som vill ha en vetenskaplig approach till vikthantering!
 
-![Viktspårare Screenshot](screenshot.png)
+![Viktspårare Screenshot1](screenshot1.png)
+![Viktspårare Screenshot2](screenshot2.png)
 
 ## ✨ Funktioner
 
