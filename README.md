@@ -77,8 +77,8 @@ sudo dnf install python3 python3-pip
 
 **Alternativ A: Med Git (rekommenderat)**
 ```bash
-git clone https://github.com/DITTANVÄNDARNAMN/viktspårare.git
-cd viktspårare
+git clone https://github.com/RayWiz666/Viktare.git
+cd Viktare
 ```
 
 **Alternativ B: Ladda ner ZIP**
@@ -243,7 +243,7 @@ Detta projekt är licensierat under MIT License - se [LICENSE](LICENSE) filen f�
 
 ## 👨‍💻 Författare
 
-**Din Name** - [GitHub](https://github.com/DITTANVÄNDARNAMN)
+**RayWiz666** - [GitHub](https://github.com/RayWiz666)
 
 ## 🙏 Erkännanden
 
@@ -255,7 +255,7 @@ Detta projekt är licensierat under MIT License - se [LICENSE](LICENSE) filen f�
 ## 📞 Support
 
 Om du har frågor eller problem:
-- Öppna en [Issue](https://github.com/DITTANVÄNDARNAMN/viktspårare/issues) på GitHub
+- Öppna en [Issue](https://github.com/RayWiz666/Viktare/issues) på GitHub
 - Läs igenom [Felsökning](#-felsökning)-sektionen ovan
 
 ## ⭐ Gilla projektet?
