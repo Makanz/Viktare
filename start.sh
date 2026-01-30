@@ -20,7 +20,7 @@ fi
 echo "Python hittat! Startar Viktspåraren..."
 echo ""
 
-python3 weight_tracker.py
+python3 weight_tracker_V1.py
 
 if [ $? -ne 0 ]; then
     echo ""

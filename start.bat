@@ -19,7 +19,7 @@ if %errorlevel% neq 0 (
 echo Python hittat! Startar Viktspåraren...
 echo.
 
-python weight_tracker.py
+python weight_tracker_V1.py
 
 if %errorlevel% neq 0 (
     echo.
