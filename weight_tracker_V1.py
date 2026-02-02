@@ -62,6 +62,23 @@ def weighted_moving_average(weights, window=7):
     return wma
 
 
+def calculate_bmi(weight, height_cm):
+    """
+    Beräknar BMI (Body Mass Index)
+
+    Args:
+        weight: Vikt i kg
+        height_cm: Längd i cm
+
+    Returns:
+        BMI-värde eller None om ogiltiga värden
+    """
+    if not weight or not height_cm or height_cm <= 0:
+        return None
+    height_m = height_cm / 100
+    return weight / (height_m ** 2)
+
+
 def predict_weight_improved(dates, weights, target_weight, method='exponential'):
     """
     Förbättrad viktprediktion med flera metoder
@@ -502,8 +519,7 @@ class GraphWidget(QWidget):
         
         dates = [datetime.strptime(e['date'], '%Y-%m-%d') for e in entries]
         weights = [e['weight'] for e in entries]
-        height_m = height / 100
-        bmis = [w / (height_m ** 2) for w in weights]
+        bmis = [calculate_bmi(w, height) for w in weights]
         
         ax = self.figure.add_subplot(111)
         
@@ -1007,8 +1023,7 @@ class WeightTrackerApp(QMainWindow):
                 info_text += f"<b>Anteckningar:</b> {latest['notes']}<br>"
             
             if profile.get('height'):
-                height_m = profile['height'] / 100
-                bmi = latest['weight'] / (height_m ** 2)
+                bmi = calculate_bmi(latest['weight'], profile['height'])
                 info_text += f"<b>BMI:</b> {bmi:.1f}"
             
             self.latest_info.setText(info_text)
@@ -1154,8 +1169,7 @@ class WeightTrackerApp(QMainWindow):
             stats += f"<b>Dagar spårade:</b> {days_tracked}<br>"
         
         if profile.get('height'):
-            height_m = profile['height'] / 100
-            bmi = current / (height_m ** 2)
+            bmi = calculate_bmi(current, profile['height'])
             stats += f"<b>Aktuell BMI:</b> {bmi:.1f}"
             
             if bmi < 18.5:
