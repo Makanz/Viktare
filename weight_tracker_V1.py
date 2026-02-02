@@ -1073,15 +1073,16 @@ class WeightTrackerApp(QMainWindow):
             weekly_change_pred, weeks_to_goal_pred, projected_date_pred = predict_weight_improved(
                 dates, weights, target, method='hybrid'
             )
-            
+
+            days_to_goal = None
             if weekly_change_pred and weekly_change_pred < 0:
                 days_to_goal = int(weeks_to_goal_pred * 7)
-                
+
                 stats += f"<b>Förbättrad prognos (Hybrid-modell):</b><br>"
                 stats += f"  • Förväntad hastighet: {abs(weekly_change_pred):.2f} kg/vecka<br>"
                 stats += f"  • Beräknad tid till mål: {int(weeks_to_goal_pred)} veckor ({days_to_goal} dagar)<br>"
                 stats += f"  • Beräknad måldag: {projected_date_pred.strftime('%Y-%m-%d')}<br>"
-                
+
                 # Visa osäkerhet baserat på datamängd
                 if len(entries) < 10:
                     confidence = "Låg"
@@ -1095,16 +1096,16 @@ class WeightTrackerApp(QMainWindow):
                     confidence = "Hög"
                     conf_color = "#52B788"
                     conf_note = "Mycket pålitlig prognos"
-                
+
                 stats += f"  • Säkerhet: <span style='color: {conf_color};'>{confidence}</span> ({conf_note})<br>"
-            
+
             # Jämför med optimal hastighet (procentbaserad)
             # Optimal: 0.5-0.75% av kroppsvikten per vecka
             weekly_loss_percent = abs(weekly_change / current * 100)
             optimal_min_percent = 0.5
             optimal_max_percent = 0.75
             optimal_mid_percent = 0.6
-            
+
             # Beräkna optimal tid med procentbaserad metod
             optimal_weeks = 0
             optimal_weight = current
@@ -1112,7 +1113,7 @@ class WeightTrackerApp(QMainWindow):
                 optimal_weeks += 1
                 optimal_weight -= optimal_weight * (optimal_mid_percent / 100)
             optimal_days = int(optimal_weeks * 7)
-            
+
             if weekly_loss_percent > optimal_max_percent + 0.15:
                 status = "⚠️ För snabb"
                 advice = f"Du går ner {weekly_loss_percent:.2f}% per vecka. Rekommenderat: 0.5-0.75% av din kroppsvikt"
@@ -1125,22 +1126,23 @@ class WeightTrackerApp(QMainWindow):
                 status = "✅ Perfekt takt"
                 advice = f"Du går ner {weekly_loss_percent:.2f}% per vecka - en hälsosam och hållbar viktminskning!"
                 color = "#52B788"
-            
+
             stats += f"<br><b>Status:</b> <span style='color: {color};'>{status}</span><br>"
             stats += f"<i>{advice}</i><br>"
-            
+
             stats += f"<br><b>Optimal takt (0.5-0.75% av vikt/vecka):</b><br>"
             stats += f"  • Tid till mål: {int(optimal_weeks)} veckor ({optimal_days} dagar)<br>"
             stats += f"  • Förväntad förlust nu: {current * optimal_mid_percent / 100:.2f} kg/vecka<br>"
-            
-            if days_to_goal < optimal_days:
-                diff = optimal_days - days_to_goal
-                stats += f"  • Du är {diff} dagar <span style='color: #C73E1D;'>snabbare</span> än optimalt<br>"
-            elif days_to_goal > optimal_days:
-                diff = days_to_goal - optimal_days
-                stats += f"  • Du är {diff} dagar <span style='color: #F18F01;'>långsammare</span> än optimalt<br>"
-            else:
-                stats += f"  • Du ligger <span style='color: #52B788;'>perfekt</span> i fas!<br>"
+
+            if days_to_goal is not None:
+                if days_to_goal < optimal_days:
+                    diff = optimal_days - days_to_goal
+                    stats += f"  • Du är {diff} dagar <span style='color: #C73E1D;'>snabbare</span> än optimalt<br>"
+                elif days_to_goal > optimal_days:
+                    diff = days_to_goal - optimal_days
+                    stats += f"  • Du är {diff} dagar <span style='color: #F18F01;'>långsammare</span> än optimalt<br>"
+                else:
+                    stats += f"  • Du ligger <span style='color: #52B788;'>perfekt</span> i fas!<br>"
         
         elif target and remaining > 0 and weekly_change >= 0:
             stats += f"<b style='color: #C73E1D;'>⚠️ Vikten ökar eller är stabil</b><br>"
